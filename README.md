@@ -14,11 +14,11 @@ sudo npm install -g watch-compile
 watchcompile -f Watchfile -i 300
 ```
 -f is used to specify the Watchfile which contained watch rules. default is "./Watchfile"
--i special the minum recompile interval.Default is 500ms.
+-i special the minimum recompile interval.Default is 500ms.
 
-When change between minum interval,the compile process will not be abort,and the latest change will not compiled.In order to prevent unwanted result the -i should be less than default settings.
+When change between minimum interval,the compile process will not be abort,and the latest change will not compiled.In order to prevent unwanted result the -i should be less than default settings.
 
-When change happend after minum compile interval,then an recompile will triggered,by your rules defined in Watchfile(latter example).But when the last change-compile is still running,That one will be aborted.
+When change happend after minimum compile interval,then an recompile will triggered,by your rules defined in Watchfile(latter example).But when the last change-compile is still running,That one will be aborted.
 
 #Watchfile
 ```bash
