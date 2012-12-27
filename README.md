@@ -44,17 +44,22 @@ Consider the folder structure
 ```
 
 when running watchcompile at /
+```
 /js/code.coffee is matched by [/^.*coffee$/,"coffee -c {fullpath}"]
 /css/style.less is matched by [/^.*less$/,"lessc {fullpath} > {directory}{basename}.css"]
 ]
+```
 So when /js/code.coffee changed."coffee -c /js/code.coffee" is excuted.
+
 When /css/style.less changed."lessc /css/style.less > /css/style.css" is excuted.
+
 Supported place holder are :
+```
 {basename} /css/style.less => style.less
 {fullpath} /css/style.less => /css/style.less (unchanged)
 {filename} /css/style.less => style
 {extname}  /css/style.less => .less
 {directory} /css/style.less => /css/
-
+```
 # Note
 Since Watchfile is considered and excuted as node module.So you can do what ever you want in side to generate any exports.watchList you want in your own logic.
