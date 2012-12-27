@@ -43,7 +43,8 @@ Consider the folder structure
 /css/style.less
 ```
 
-when running watchcompile at /
+When running watchcompile at /
+
 ```
 /js/code.coffee is matched by [/^.*coffee$/,"coffee -c {fullpath}"]
 /css/style.less is matched by [/^.*less$/,"lessc {fullpath} > {directory}{basename}.css"]
