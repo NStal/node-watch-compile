@@ -1,0 +1,23 @@
+{
+    "author": "NStal",
+    "name": "watch-compile",
+    "description": "An watch-compile tool for nodejs.Useful for webdev real-time compilation such as less/coffee or what ever you want.",
+    "version": "0.0.1",
+    "repository": {
+	"type": "git",
+	"url": "https://github.com/NStal/node-watch-compile"
+    },
+    "keywords":["compile","watcher","watch","jade","less","coffee","stylus","sass"],
+    "engines": {
+	"node": "*"
+    },
+    "dependencies":{
+	"wrench":"*"
+	,"commander":"*"
+    },
+    "directories": {
+	"lib": "./lib"
+	,"bin":"./bin"
+    },
+    "main":"./lib/watch.js"
+}

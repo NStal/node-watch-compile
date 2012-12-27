@@ -1,0 +1,9 @@
+//basename
+//fullpath
+//filename
+//extname
+//directory
+exports.watchList = [
+    [/^.*coffee$/,"coffee -c {fullpath}"]
+    ,[/^.*less$/,"lessc {fullpath} > {directory}{basename}.css"]
+]
