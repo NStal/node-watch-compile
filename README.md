@@ -1,5 +1,7 @@
 node-watch-compile
 ==================
+# Note
+Only tested under linux.Nodejs's fs.watch is used to watch file changes,but these API is not gareteed in all platform.The availability can be found at http://nodejs.org/api/fs.html#fs_availability
 
 An watch-compile tool for nodejs.Useful for webdev real-time compilation for less/coffee or what ever.
 # Install
