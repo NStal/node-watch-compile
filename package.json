@@ -2,7 +2,7 @@
   "author": "NStal",
   "name": "watch-compile",
   "description": "An watch-compile tool for nodejs.Useful for webdev real-time compilation such as less/coffee or what ever you want.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/NStal/node-watch-compile"
