@@ -27,6 +27,7 @@ class Queue extends States
             return
         task = @tasks.shift()
         if not task
+            @emit "empty"
             @data.currentTask = null
             @setState "waiting"
             return

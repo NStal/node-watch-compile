@@ -10,6 +10,7 @@ program = commander
     .option("-c,--create-default","create and default rules save as ./Watchfile")
     .option("-v,--version","print version")
     .option("-s,--start-compile","compile all matched file at start")
+    .option("-q,--quit","combined with -s, quit program after start compile")
     .version("0.0.5")
     .parse(process.argv);
 
@@ -71,4 +72,9 @@ watcher.on "change",(path)->
             task = rule.taskFromPath path
             console.log "create #{task.toString()} by #{path}: modification"
             queue.add task
-console.log "start watching"
+queue.on "empty",()->
+    if program.startCompile and program.quit
+        console.log "start compile done and quit by -q"
+        process.exit(0)
+if not program.quit
+    console.log "start watching"
