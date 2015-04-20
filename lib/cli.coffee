@@ -64,11 +64,11 @@ if program.startCompile
                 task = rule.taskFromPath path
                 console.log "create #{task.toString()} by #{path}: inital compile"
                 queue.add task
-watcher = new Watcher("./")
+watcher = new Watcher(".")
 watcher.on "change",(path)->
     for rule in rules
         if rule.test path
             task = rule.taskFromPath path
-            console.log "create task by #{path}: modification"
-            console.log "#{task.toString()}"
+            console.log "create #{task.toString()} by #{path}: modification"
             queue.add task
+console.log "start watching"
