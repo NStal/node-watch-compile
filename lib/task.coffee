@@ -31,9 +31,9 @@ class Task
 
         @cp.stdout.pipe process.stdout
         @cp.stderr.pipe process.stderr
-        @cp.once "error",(err)->
+        @cp.once "error",(err)=>
             callback new Errors.TaskFailed "task #{@toString()} failed with error #{err}",{via:err}
-        @cp.once "exit",(code)->
+        @cp.once "exit",(code)=>
             @isDone = true
             if code isnt 0
                 callback new Errors.TaskFailed("task #{@toString()} failed with code #{code}")
