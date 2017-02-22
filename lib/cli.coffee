@@ -81,7 +81,7 @@ if program.startCompile
 watcher = new Watcher(".")
 watcher.on "change",(path)->
     if not noHashCheck && not changeMap.checkAndUpdate(path)
-        console.log("#{path} file changed but content hash doesnt, skip it.")
+        console.log("#{path} file changed but content hash doesn't, skip it.")
         return
     for rule in rules
         if rule.test path
