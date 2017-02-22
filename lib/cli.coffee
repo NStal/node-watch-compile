@@ -6,6 +6,7 @@ wrench = require "wrench"
 Queue = require "./queue"
 DateString = require "./dateString"
 Rule = require "./rule"
+ChangeMap = require "./changeMap"
 commander = require("commander");
 program = commander
     .option("-f,--file <filename>","specifail the watchfile default is Watchfile")
@@ -13,6 +14,7 @@ program = commander
     .option("-v,--version","print version")
     .option("-s,--start-compile","compile all matched file at start")
     .option("-q,--quit","combined with -s, quit program after start compile")
+    .option("--no-hash-check","don't check file content hash change")
     .version("0.0.5")
     .parse(process.argv);
 
@@ -46,7 +48,7 @@ process.stdout.setMaxListeners(2000)
 process.stderr.setMaxListeners(2000)
 ignoreHidden = !program.all;
 watchFile = program.file || "./Watchfile";
-
+noHashCheck = program.noHashCheck || false
 try
     context = vm.createContext({exports:{}})
     WatchfileCode = fs.readFileSync(watchFile)
@@ -65,6 +67,7 @@ for service in serviceList
 
 rules = []
 queue = new Queue
+changeMap = new ChangeMap()
 for config in list
     rules.push new Rule config
 if program.startCompile
@@ -77,6 +80,9 @@ if program.startCompile
                 queue.add task
 watcher = new Watcher(".")
 watcher.on "change",(path)->
+    if not noHashCheck && not changeMap.checkAndUpdate(path)
+        console.log("#{path} file changed but content hash doesnt, skip it.")
+        return
     for rule in rules
         if rule.test path
             task = rule.taskFromPath path
