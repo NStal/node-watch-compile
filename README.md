@@ -23,11 +23,6 @@ watchcompile -s
 `-f` is used to specify the Watchfile which contained watch rules. default is "./Watchfile"
 `-s` make watchcompile run initial compilation for all matched files.
 
-When changes occured between minimum interval, the compile process will not be aborted, and the latest change will get compiled. In order to prevent unwanted result the -i should be less than default settings.
-
-When change happend after minimum compile interval, an recompile will be triggered immediately. In case the previous compilation of the same file and same command is still running, that previous compilation task will be stopped immediately.
-
-
 #Watchfile
 ```bash
 #create an default Watchfile at ./

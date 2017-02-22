@@ -15,6 +15,7 @@ program = commander
     .option("-s,--start-compile","compile all matched file at start")
     .option("-q,--quit","combined with -s, quit program after start compile")
     .option("--no-hash-check","don't check file content hash change")
+    .option("--verbose","be verbose")
     .version("0.0.5")
     .parse(process.argv);
 
@@ -57,7 +58,7 @@ try
     serviceList = context.exports.serviceList || []
 catch e
     console.error "invalid watchfile '%s'",watchFile
-    process.exit(1);
+    process.exit(1)
 
 for service in serviceList
     do (service)->
@@ -81,7 +82,8 @@ if program.startCompile
 watcher = new Watcher(".")
 watcher.on "change",(path)->
     if not noHashCheck && not changeMap.checkAndUpdate(path)
-        console.log("#{path} file changed but content hash doesn't, skip it.")
+        if program.verbose
+            console.log("#{path} file changed but content hash doesn't, skip it.")
         return
     for rule in rules
         if rule.test path
