@@ -5,7 +5,10 @@ class Rule
         @reg = @config[0]
         @command = @config[1]
     test:(path)->
-        return @reg.test path
+        if @reg.test
+            return @reg.test path
+        else if typeof @reg is "function"
+            return @reg(path)
     taskFromPath:(path)->
         return new Task(path,@command)
 module.exports = Rule

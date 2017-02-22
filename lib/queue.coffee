@@ -1,3 +1,4 @@
+DateString = require "./dateString"
 States = require "logicoma"
 class Queue extends States
     constructor:()->
@@ -39,6 +40,6 @@ class Queue extends States
             if @stale sole
                 return
             end = Date.now()
-            console.log task.toString(),"done (#{(end - start + "ms")})"
+            console.log DateString.genReadableDateString(),task.toString(),"done (#{(end - start + "ms")})"
             @setState "working"
 module.exports = Queue

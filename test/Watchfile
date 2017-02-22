@@ -3,7 +3,19 @@
 //{filename} /css/style.less => style
 //{extname}  /css/style.less => .less
 //{directory} /css/style.less => /css/
+function SomeCoffeeScript(path){
+    if(path.indexOf("ignoreMe") >= 0)return false
+    var test = /^.*.coffee$/.test(path)
+    if(test)return true
+}
 exports.watchList = [
-    [/^.*coffee$/,"coffee -c {fullpath}"]
-    ,[/^.*less$/,"lessc {fullpath} > {directory}{basename}.css"]
+    // [testFunction,commandToRun]
+    // [RegExp|(path:string)=>boolean,string]
+    [SomeCoffeeScript,'coffee -c {fullpath}'],
+    [/^.*.less$/,'lessc {fullpath} > {directory}{filename}.css'],
+];
+exports.serviceList = [
+    //commandToRunOnceAtStart
+    "echo WatchCompileStart",
+    "echo 'start tsc watch' && tsc -p ./ --watch"
 ]

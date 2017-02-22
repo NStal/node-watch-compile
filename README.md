@@ -11,15 +11,22 @@ sudo npm install -g watch-compile
 
 # Usage
 ```bash
-watchcompile -f Watchfile -i 300 -s
+# watchcompile or nwc
+# create a template Watchfile
+watchcompile -c
+# Run it
+watchcompile -s
+# Or run with parameters
+# watchcompile -f Watchfile -i 300
 ```
--f is used to specify the Watchfile which contained watch rules. default is "./Watchfile"
--i special the minimum recompile interval.Default is 500ms.
--s compile all match rules at start
 
-When change between minimum interval,the compile process will not be abort,and the latest change will not compiled.In order to prevent unwanted result the -i should be less than default settings.
+`-f` is used to specify the Watchfile which contained watch rules. default is "./Watchfile"
+`-i` special the minimum recompile interval. Default to 500ms.
+`-s` make watchcompile run initial compilation for all matched files.
 
-When change happend after minimum compile interval,then an recompile will triggered,by your rules defined in Watchfile(latter example).But when the last change-compile is still running,That one will be aborted.
+When changes occured between minimum interval, the compile process will not be aborted, and the latest change will get compiled. In order to prevent unwanted result the -i should be less than default settings.
+
+When change happend after minimum compile interval, an recompile will be triggered immediately. In case the previous compilation of the same file and same command is still running, that previous compilation task will be stopped immediately.
 
 #Watchfile
 ```bash
