@@ -22,7 +22,7 @@ defaultWatchFile = """//{basename} /css/style.less => style.less
 //{extname}  /css/style.less => .less
 //{directory} /css/style.less => /css/
 exports.watchList = [
-    // [testFunction,commandToRun]
+    // [testFunctionOrRegExp,commandToRun]
     // [RegExp|(path:string)=>boolean,string]
     [/^.*\.coffee$/,'coffee -c {fullpath}'],
     [/^.*\.less$/,'lessc {fullpath} > {directory}{filename}.css'],
@@ -30,8 +30,7 @@ exports.watchList = [
 
 exports.serviceList = [
     //commandToRunOnceAtStart
-    "echo WatchCompileStart",
-    "echo 'start tsc watch' && tsc -p ./ --watch"
+    "echo watchcompile start",
 ]
 """
 if program.createDefault
@@ -54,22 +53,18 @@ try
     vm.runInContext(WatchfileCode,context,"watchFile")
     list = context.exports.watchList || []
     serviceList = context.exports.serviceList || []
-#    console.log(JSON.stringify context,((k,v)->
-#        if v?.constructor?.name isnt "RegExp"
-#            return v
-#        return "RegExp(/#{v.source}/)"
-#    ),4);
 catch e
     console.error "invalid watchfile '%s'",watchFile
     process.exit(1);
 
-rules = []
-queue = new Queue
 for service in serviceList
     do (service)->
         cp = child_process.exec(service)
         cp.stdout.pipe(process.stdout)
         cp.stderr.pipe(process.stderr)
+
+rules = []
+queue = new Queue
 for config in list
     rules.push new Rule config
 if program.startCompile
