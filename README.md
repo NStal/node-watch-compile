@@ -50,7 +50,7 @@ exports.serviceList = [
 ```
 Watchfile's working directory is always based on `pwd` of your shell.
 
-Watchfile is considered as an standard node module and latter running by require("vm").runInContext.
+Watchfile is considered as an standard node module and latter running by `require("vm").runInContext`.
 
 Consider the folder structure
 ```
@@ -87,6 +87,11 @@ Since Watchfile is considered and excuted as node module. So you can do what eve
 ### ServiceList
 
 Some compilation has it's own watch system and some of them, such as `typescript`, may have incremental compilation which lead to a huge performance boost than normal compilation. So we provide a `exports.serviceList` to run it at start of watchcompile. Also you can run any other command as you wish as a service. It is actually just a command run at start of the watchcompile as a child process.
+
+## Behavior
+
+1. Only one task is running at any moment.
+2. When multiple task with exactly the same command is triggered, they get merged, unless one of them is currently running, then we will queue it.
 
 ### Notification
 
