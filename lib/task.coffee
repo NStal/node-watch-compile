@@ -15,10 +15,7 @@ class Task
             .replace(/\{extname\}/g,@extname);
         return
     equal:(task)->
-        if @option.duplication
-            return @path is task.path and @command is task.command
-        else
-            return @command is task.command
+        return @command is task.command
     exec:(callback = ()->)->
         if @isDone
             callback new Errors.AlreadyDone()
@@ -41,5 +38,4 @@ class Task
             callback()
     toString:()->
         return "[Task:#{@path} -> #{@command}]"
-
 module.exports = Task

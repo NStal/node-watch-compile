@@ -67,7 +67,7 @@ for service in serviceList
         cp.stderr.pipe(process.stderr)
 
 rules = []
-queue = new Queue
+queue = new Queue(program.verbose)
 changeMap = new ChangeMap()
 for config in list
     rules.push new Rule config

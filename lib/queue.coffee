@@ -1,7 +1,7 @@
 DateString = require "./dateString"
 States = require "logicoma"
 class Queue extends States
-    constructor:()->
+    constructor:(@verbose = false)->
         super()
         @tasks = []
         @setState "waiting"
@@ -10,9 +10,9 @@ class Queue extends States
     add:(task)->
         for item in @tasks
             if item.equal task
+                if this.verbose
+                    console.log "Merging task #{task.toString()}"
                 return false
-#        if @currentTask?.equal?(item)
-#            return false
         @tasks.push task
         if @isWaitingFor "startSignal"
             @give "startSignal"
