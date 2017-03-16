@@ -1,6 +1,6 @@
 {
   "author": "NStal",
-  "name": "watch-compile",
+  "name": "watchcompile",
   "description": "An watch-compile tool for nodejs.Useful for webdev real-time compilation such as less/coffee or what ever you want.",
   "version": "0.3.4",
   "repository": {
