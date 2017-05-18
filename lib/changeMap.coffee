@@ -5,7 +5,10 @@ module.exports = class ChangeMap
         this.map = {}
     checkAndUpdate:(path)->
         hash = crypto.createHash("md5")
-        hash.update fs.readFileSync(path)
+        try
+            hash.update fs.readFileSync(path)
+        catch e
+            return false
         hashString = hash.digest("hex")
         if this.map[path] is hashString
             return false
