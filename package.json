@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "chokidar": "^1.0.1",
-    "coffee-script": "*",
+    "coffee-script": "^1.12.6",
     "commander": "*",
     "error-doc": "0.0.4",
     "logicoma": "^0.1.1",
