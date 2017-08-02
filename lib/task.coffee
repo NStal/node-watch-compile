@@ -1,6 +1,7 @@
 Errors = require "./errors"
 child_process = require "child_process"
 pathModule = require "path"
+globalConfig = require "./globalConfig"
 class Task
     constructor:(@path,@rawCommand,@option = {})->
 
@@ -24,7 +25,10 @@ class Task
         if @isExecuting
             callback new Errors.AlreadyExcuting()
             return
-        @cp = child_process.exec @command
+        option = {}
+        if globalConfig.shell
+            option.shell = globalConfig.shell
+        @cp = child_process.exec @command,option
 
         @cp.stdout.pipe process.stdout
         @cp.stderr.pipe process.stderr

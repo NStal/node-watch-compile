@@ -1,5 +1,6 @@
 fs = require("fs");
 vm = require("vm");
+globalConfig = require "./globalConfig"
 Watcher = require "./watcher"
 child_process = require "child_process"
 wrench = require "wrench"
@@ -16,6 +17,7 @@ program = commander
     .option("-q,--quit","combined with -s, quit program after start compile")
     .option("--no-hash-check","don't check file content hash change")
     .option("--verbose","be verbose")
+    .option("--shell <shell-path>","exec shell path")
     .version("0.0.5")
     .parse(process.argv);
 
@@ -66,6 +68,9 @@ for service in serviceList
         cp.stdout.pipe(process.stdout)
         cp.stderr.pipe(process.stderr)
 
+if program.shell
+    globalConfig.shell = program.shell
+    console.log "Using shell",globalConfig.shell
 rules = []
 queue = new Queue(program.verbose)
 changeMap = new ChangeMap()
