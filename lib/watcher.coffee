@@ -1,11 +1,12 @@
 EventEmitter = (require "events").EventEmitter
 chokidar = require('chokidar')
 class Watcher extends EventEmitter
-    constructor:(@watchRoot)->
+    constructor:(@watchRoots)->
+        if typeof @watchRoots is "string"
+            @watchRoots = [@watchRoots]
         @init()
     init:()->
-
-        @watcher = chokidar.watch @watchRoot,{
+        @watcher = chokidar.watch @watchRoots,{
           persistent: true
           usePolling: true
           interval: 100

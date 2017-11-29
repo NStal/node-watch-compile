@@ -19,3 +19,6 @@ exports.serviceList = [
     "echo WatchCompileStart",
     "echo 'start tsc watch' && tsc -p ./ --watch"
 ]
+exports.watches = [
+    "./js"
+]

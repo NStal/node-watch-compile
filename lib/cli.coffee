@@ -2,6 +2,7 @@ fs = require("fs");
 vm = require("vm");
 globalConfig = require "./globalConfig"
 Watcher = require "./watcher"
+pathModule = require "path"
 child_process = require "child_process"
 wrench = require "wrench"
 Queue = require "./queue"
@@ -52,12 +53,14 @@ process.stderr.setMaxListeners(2000)
 ignoreHidden = !program.all;
 watchFile = program.file || "./Watchfile";
 noHashCheck = program.noHashCheck || false
+watchFolders = ["./"]
 try
-    context = vm.createContext({exports:{}})
+    context = vm.createContext({exports:{},console})
     WatchfileCode = fs.readFileSync(watchFile)
     vm.runInContext(WatchfileCode,context,"watchFile")
     list = context.exports.watchList || []
     serviceList = context.exports.serviceList || []
+    watchFolders = context.exports.watches || ["./"]
 catch e
     console.error "invalid watchfile '%s'",watchFile
     process.exit(1)
@@ -76,15 +79,28 @@ queue = new Queue(program.verbose)
 changeMap = new ChangeMap()
 for config in list
     rules.push new Rule config
+
+## Calculate watch dir
+if typeof watchFolders is "string"
+    watchFolders = [watchFolders]
+if !watchFolders.forEach
+    throw new Error("Invalid watchfolder")
+watchFileFolder = pathModule.dirname(watchFile)
+#watchFolders = watchFolders.map folder => pathModule.join(watchFileFolder,folder)
+
+console.log watchFolders
 if program.startCompile
-    files = wrench.readdirSyncRecursive "./"
-    for path in files
-        for rule in rules
-            if rule.test path
-                task = rule.taskFromPath path
-                console.log "#{DateString.genReadableDateString()} create #{task.toString()} by #{path}: inital compile"
-                queue.add task
-watcher = new Watcher(".")
+    for folder in watchFolders
+        files = wrench.readdirSyncRecursive pathModule.join watchFileFolder,folder
+        for path in files
+            path = pathModule.join(folder,path)
+            for rule in rules
+                if rule.test path
+                    task = rule.taskFromPath path
+                    console.log "#{DateString.genReadableDateString()} create #{task.toString()} by #{path}: inital compile"
+                    queue.add task
+watcher = new Watcher(watchFolders)
+
 watcher.on "change",(path)->
     if not noHashCheck && not changeMap.checkAndUpdate(path)
         if program.verbose
@@ -95,6 +111,7 @@ watcher.on "change",(path)->
             task = rule.taskFromPath path
             console.log "#{DateString.genReadableDateString()} create #{task.toString()} by #{path}: modification"
             queue.add task
+
 queue.on "empty",()->
     if program.startCompile and program.quit
         console.log "start compile done and quit by -q"

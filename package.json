@@ -21,7 +21,7 @@
     "node": "*"
   },
   "dependencies": {
-    "chokidar": "^1.0.1",
+    "chokidar": "^1.7.0",
     "coffee-script": "^1.12.6",
     "commander": "*",
     "error-doc": "0.0.4",
